@@ -3,7 +3,9 @@
   display: flex;
   font-size: 18px;
   justify-content: center;
-  margin-top: 30px;
+  margin-top: 15px;
+  position: relative;
+  z-index: 2;
 
   &__icon {
     fill: #fff;

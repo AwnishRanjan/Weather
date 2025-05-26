@@ -1,39 +1,38 @@
 class IpGeoLocation {
   constructor(secret) {
-    this.endpoint = ip => `https://weather-api-iondrimba.vercel.app/api?ip=${ip}`;
+    this.apiKey = 'd5f0e5d4a6c94c0b9c4235007232411';
     this.data = null;
     this.secret = secret;
   }
 
-  async fetch(ip) {
+  getEndpoint(query) {
+    return `https://api.weatherapi.com/v1/forecast.json?key=${this.apiKey}&q=${encodeURIComponent(query)}&days=6&aqi=no`;
+  }
+
+  async fetchByLocation(location) {
     try {
-      if (!ip) {
-        throw new Error('No IP address provided');
-      }
-
-      const response = await fetch(this.endpoint(ip), {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        mode: 'cors'
-      });
-
+      const response = await fetch(this.getEndpoint(location));
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
-      const result = await response.json();
-      
-      if (!result || !result.location) {
-        throw new Error('Invalid response format from weather API');
-      }
-
-      this.data = result;
+      this.data = await response.json();
+      return this.data;
     } catch (error) {
-      console.error('Geolocation fetch error:', error);
-      // Initialize with default data instead of throwing
+      console.error('Error fetching weather data:', error);
+      throw error;
+    }
+  }
+
+  async fetch(ip) {
+    try {
+      const response = await fetch(this.getEndpoint(ip));
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      this.data = await response.json();
+    } catch (error) {
+      console.error('Error fetching weather data:', error);
+      // Initialize with default data in case of error
       this.data = {
         location: {
           name: 'New York',

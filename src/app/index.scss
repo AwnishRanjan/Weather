@@ -1,32 +1,65 @@
-body {
-  background: rgb(42, 50, 158);
-  color: #fff;
-  font-family: monospace;
-  font-size: 16px;
-  height: 100vh;
+html, body, #root {
   margin: 0;
-  overflow: hidden;
   padding: 0;
+  height: 100%;
   width: 100%;
 }
 
-input,
-textarea,
-button,
-select,
-label,
-a {
-  -webkit-tap-highlight-color: transparent;
+body {
+  background: linear-gradient(45deg, #3f51b5, #2196f3);
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+/* Webkit scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .App {
-  background: linear-gradient(to bottom, #297af9, #333fb7);
+  flex: 1;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  justify-content: space-between;
+  background: linear-gradient(to bottom, #297af9, #333fb7);
+  min-height: 100vh;
   position: relative;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.app-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
 }
 
 .wrapper-temperature {
@@ -49,8 +82,12 @@ a {
     border-radius: 6px;
     display: flex;
     justify-content: flex-start;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
     width: 342px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
   }
 
   .swiper-wrapper {
@@ -84,19 +121,37 @@ a {
   }
 }
 
+/* Mobile Styles */
+@media screen and (max-width: 767px) {
+  .App {
+    height: 100vh;
+    overflow-y: auto;
+  }
+}
+
+/* Desktop Styles */
 @media screen and (min-width: 768px) {
-  #root {
-    align-items: center;
-    display: flex;
-    height: 100%;
-    justify-content: center;
+  body {
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
   .App {
+    max-width: 375px;
+    margin: 0 auto;
     border-radius: 10px;
     box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .06);
-    height: 667px;
-    overflow: hidden;
-    width: 375px;
+    height: calc(100vh - 40px);
+    overflow-y: auto;
   }
+}
+
+input,
+textarea,
+button,
+select,
+label,
+a {
+  -webkit-tap-highlight-color: transparent;
 }

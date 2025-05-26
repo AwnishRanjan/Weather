@@ -5,6 +5,7 @@ import Loader from '../components/Loader';
 import Error from '../components/Error';
 import rAFTimeout from '../helpers/rAFTimeout';
 import Storage from './storage';
+import WeatherHistory from '../components/WeatherHistory/WeatherHistory';
 import './index.scss';
 
 class App extends Component {
@@ -118,6 +119,7 @@ class App extends Component {
         {
           !this.state.dataLoaded ? <Loader ref={this.loader} /> : this.display()
         }
+        <WeatherHistory />
       </div>
     );
   }

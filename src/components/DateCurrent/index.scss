@@ -2,14 +2,14 @@
   align-items: center;
   color: rgba(255, 255, 255, .8);
   display: flex;
-  font-size: 18px;
   font-size: 16px;
   justify-content: center;
   left: 50%;
   position: absolute;
   text-align: center;
-  transform: translate(-50%, 80px);
+  transform: translate(-50%, 40px);
   width: 100%;
+  margin-bottom: 20px;
 
   &__text {
     opacity: 0;

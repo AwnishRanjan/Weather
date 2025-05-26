@@ -1,11 +1,14 @@
 .current-condition {
   text-align: center;
+  margin-top: 60px;
 }
 
 .temperature {
   align-items: center;
   display: flex;
   justify-content: center;
+  position: relative;
+  padding-top: 20px;
 
   &__status {
     display: block;
@@ -17,6 +20,7 @@
     transition: transform .3s cubic-bezier(.165, .84, .44, 1), opacity .3s ease-out;
     width: 100%;
     will-change: transform, opacity;
+    top: -10px;
   }
 
   &__status.animate-in {
@@ -54,6 +58,7 @@
     transform: translateY(40px);
     transition: transform .3s cubic-bezier(.165, .84, .44, 1), opacity .3s ease-out;
     will-change: transform, opacity;
+    margin-top: 20px;
   }
 
   &__value.animate-in {
