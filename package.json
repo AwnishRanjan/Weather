@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "export FAST_REFRESH=false && export NODE_ENV=development && export SET NODE_OPTIONS=--openssl-legacy-provider && export WATCHPACK_POLLING=true && node scripts/start.js",
-    "build": "node scripts/build.js",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider && node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom --coverage"
   },
   "dependencies": {
