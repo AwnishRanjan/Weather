@@ -12,6 +12,7 @@ export default class Storage {
     this.data = { ...initialState };
     this.currentDate = new Date();
     this.updateCallbacks = [];
+    this.errorCallbacks = [];
   }
 
   // Add callback for UI updates
@@ -19,9 +20,19 @@ export default class Storage {
     this.updateCallbacks.push(callback);
   }
 
+  // Add callback for error handling
+  addErrorCallback(callback) {
+    this.errorCallbacks.push(callback);
+  }
+
   // Notify all subscribers of data updates
   notifyUpdate() {
     this.updateCallbacks.forEach(callback => callback(this.data));
+  }
+
+  // Notify all subscribers of errors
+  notifyError(error) {
+    this.errorCallbacks.forEach(callback => callback(error));
   }
 
   update(weatherData = null) {
@@ -77,7 +88,7 @@ export default class Storage {
       this.notifyUpdate();
       this.saveToLocalStorage();
     } catch (error) {
-      console.error('Error updating weather data:', error);
+      this.notifyError(new Error(`Failed to update weather data: ${error.message}`));
     }
   }
 
@@ -90,7 +101,7 @@ export default class Storage {
       localStorage.setItem('weatherData', JSON.stringify(this.data));
       localStorage.setItem('lastupdate', this.currentDate.toString());
     } catch (error) {
-      console.error('Error saving to localStorage:', error);
+      this.notifyError(new Error(`Failed to save to localStorage: ${error.message}`));
     }
   }
 
@@ -102,7 +113,7 @@ export default class Storage {
         this.notifyUpdate();
       }
     } catch (error) {
-      console.error('Error loading from localStorage:', error);
+      this.notifyError(new Error(`Failed to load from localStorage: ${error.message}`));
     }
   }
 
@@ -112,7 +123,7 @@ export default class Storage {
       this.update(weatherData);
       return true;
     } catch (error) {
-      console.error('Error updating weather by location:', error);
+      this.notifyError(new Error(`Failed to update weather by location: ${error.message}`));
       return false;
     }
   }
@@ -128,7 +139,7 @@ export default class Storage {
         }
       }
     } catch (error) {
-      console.error('Error updating IP:', error);
+      this.notifyError(new Error(`Failed to update IP: ${error.message}`));
     }
   }
 
@@ -152,7 +163,7 @@ export default class Storage {
       await this.ipGeoLocation.fetch(this.ipFetcher.ip);
       this.update();
     } catch (error) {
-      console.error('Error updating geolocation:', error);
+      this.notifyError(new Error(`Failed to update geolocation: ${error.message}`));
     }
   }
 

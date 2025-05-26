@@ -18,8 +18,8 @@ class IpGeoLocation {
       this.data = await response.json();
       return this.data;
     } catch (error) {
-      console.error('Error fetching weather data:', error);
-      throw error;
+      // Throw error with more context
+      throw new Error(`Failed to fetch weather data: ${error.message}`);
     }
   }
 
@@ -31,41 +31,45 @@ class IpGeoLocation {
       }
       this.data = await response.json();
     } catch (error) {
-      console.error('Error fetching weather data:', error);
-      // Initialize with default data in case of error
-      this.data = {
-        location: {
-          name: 'New York',
-          lat: 40.7128,
-          lon: -74.0060,
-          localtime_epoch: Date.now() / 1000
-        },
-        current: {
-          temp_c: 20,
-          condition: { text: 'Partly cloudy', code: 1003 }
-        },
-        forecast: {
-          forecastday: [{
-            hour: Array(24).fill().map((_, i) => ({
-              time_epoch: (Date.now() / 1000) + (i * 3600),
-              temp_c: 20,
-              chance_of_rain: 0,
-              condition: { code: 1003 },
-              is_day: i >= 6 && i <= 18
-            }))
-          }].concat(Array(5).fill().map((_, i) => ({
-            date_epoch: (Date.now() / 1000) + ((i + 1) * 86400),
-            day: {
-              maxtemp_c: 25,
-              mintemp_c: 15,
-              daily_chance_of_rain: 0,
-              condition: { code: 1003 },
-              is_day: 1
-            }
-          })))
-        }
-      };
+      // Set default data and throw error with context
+      this.setDefaultData();
+      throw new Error(`Failed to fetch weather data: ${error.message}`);
     }
+  }
+
+  setDefaultData() {
+    this.data = {
+      location: {
+        name: 'New York',
+        lat: 40.7128,
+        lon: -74.0060,
+        localtime_epoch: Date.now() / 1000
+      },
+      current: {
+        temp_c: 20,
+        condition: { text: 'Partly cloudy', code: 1003 }
+      },
+      forecast: {
+        forecastday: [{
+          hour: Array(24).fill().map((_, i) => ({
+            time_epoch: (Date.now() / 1000) + (i * 3600),
+            temp_c: 20,
+            chance_of_rain: 0,
+            condition: { code: 1003 },
+            is_day: i >= 6 && i <= 18
+          }))
+        }].concat(Array(5).fill().map((_, i) => ({
+          date_epoch: (Date.now() / 1000) + ((i + 1) * 86400),
+          day: {
+            maxtemp_c: 25,
+            mintemp_c: 15,
+            daily_chance_of_rain: 0,
+            condition: { code: 1003 },
+            is_day: 1
+          }
+        })))
+      }
+    };
   }
 }
 

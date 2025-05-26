@@ -29,8 +29,7 @@ const WeatherHistory = ({ storage }) => {
       const records = await getWeatherHistory();
       setWeatherRecords(records);
     } catch (error) {
-      console.error('Error loading weather history:', error);
-      setError('Failed to load weather history');
+      setError(`Failed to load weather history: ${error.message}`);
     }
   };
 
@@ -47,8 +46,7 @@ const WeatherHistory = ({ storage }) => {
           setError('Could not find weather data for this location');
         }
       } catch (error) {
-        console.error('Error fetching weather for location:', error);
-        setError('Could not find weather data for this location');
+        setError(`Could not find weather data for this location: ${error.message}`);
       } finally {
         setIsLoading(false);
       }
@@ -84,8 +82,7 @@ const WeatherHistory = ({ storage }) => {
       loadWeatherHistory();
       resetForm();
     } catch (error) {
-      console.error('Error saving weather history:', error);
-      setError('Failed to save weather history. Please check the location and try again.');
+      setError(`Failed to save weather history: ${error.message}`);
     } finally {
       setIsLoading(false);
     }
@@ -98,8 +95,7 @@ const WeatherHistory = ({ storage }) => {
       await deleteWeatherHistory(id);
       loadWeatherHistory();
     } catch (error) {
-      console.error('Error deleting weather history:', error);
-      setError('Failed to delete weather history');
+      setError(`Failed to delete weather history: ${error.message}`);
     } finally {
       setIsLoading(false);
     }
@@ -131,8 +127,7 @@ const WeatherHistory = ({ storage }) => {
       a.click();
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error('Error exporting data:', error);
-      setError('Failed to export data');
+      setError(`Failed to export data: ${error.message}`);
     }
   };
 
@@ -227,8 +222,7 @@ const WeatherHistory = ({ storage }) => {
                     try {
                       await storage.updateByLocation(record.location);
                     } catch (err) {
-                      console.error('Error fetching weather for location:', err);
-                      setError('Could not update weather for this location');
+                      setError(`Could not update weather for this location: ${err.message}`);
                     } finally {
                       setIsLoading(false);
                     }
